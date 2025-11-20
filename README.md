@@ -59,4 +59,4 @@ Este projeto está configurado para deploy automático no **GitHub Pages** via G
 
 ---
 
-Desenvolvido com 💜 por [Seu Nome]
+Desenvolvido com 💜 por [Mateus IA - Google]
