@@ -1,0 +1,25 @@
+.generator-panel {
+  width: 320px;
+  flex-shrink: 0;
+  padding: 24px 20px;
+  overflow-y: auto;
+  max-height: calc(100vh - 64px);
+  position: sticky;
+  top: 64px;
+  align-self: flex-start;
+}
+
+@media (max-width: 1024px) {
+  .generator-panel {
+    width: 280px;
+    padding: 18px 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .generator-panel {
+    width: 100%;
+    position: static;
+    max-height: none;
+  }
+}

@@ -1,0 +1,137 @@
+.slideshow-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(15, 15, 19, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+}
+
+:root[data-theme='light'] .slideshow-overlay {
+  background: rgba(240, 240, 247, 0.95);
+}
+
+.slideshow-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.slideshow-controls-left,
+.slideshow-controls-right {
+  flex: 1;
+  display: flex;
+}
+
+.slideshow-controls-right {
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
+}
+
+.slideshow-timer {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--accent-light);
+  min-width: 40px;
+  text-align: right;
+}
+
+.slideshow-controls-center {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.interval-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  margin: 0;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.interval-input {
+  width: 70px;
+  padding: 6px 10px;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.slideshow-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  color: var(--text-primary);
+  border-color: transparent;
+}
+
+.play-btn {
+  width: 56px;
+  height: 56px;
+  background: var(--accent);
+  color: #fff;
+}
+
+.play-btn:hover {
+  background: var(--accent-light);
+  color: #fff;
+  border-color: transparent;
+}
+
+.close-btn {
+  width: 44px;
+  height: 44px;
+}
+
+.slideshow-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  overflow: hidden;
+}
+
+.slideshow-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  max-width: 90vw;
+  max-height: 80vh;
+}
+
+.slideshow-index {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--accent-light);
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.slideshow-render {
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slideshow-text {
+  margin-top: 32px;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-align: center;
+  word-break: break-all;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}

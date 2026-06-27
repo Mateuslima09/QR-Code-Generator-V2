@@ -1,0 +1,28 @@
+.footer {
+  padding: 20px 24px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  background: var(--bg-glass);
+  backdrop-filter: blur(8px);
+  margin-top: auto;
+}
+
+.footer-github-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: transform 0.2s ease, color 0.2s ease, filter 0.2s ease;
+}
+
+.footer-github-link:hover {
+  transform: translateY(-3px) scale(1.15);
+  color: #ffffff;
+  filter: drop-shadow(0 4px 12px rgba(99, 102, 241, 0.6));
+}
+
+.footer-github-icon {
+  width: 24px;
+  height: 24px;
+}
+
