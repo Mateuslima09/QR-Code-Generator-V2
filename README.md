@@ -1,6 +1,6 @@
 # 🚀 QR Master - Gerador de QR Codes e Códigos de Barras
 
-Site: https://max-qr-code.netlify.app
+Site: web-app-qrmaster.netlify.app
 
 
 > Um gerador de códigos moderno, rápido e com design premium. Crie QR Codes e Códigos de Barras personalizados, individualmente ou em massa.
