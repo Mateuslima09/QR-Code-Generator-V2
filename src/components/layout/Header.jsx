@@ -1,4 +1,5 @@
 ﻿import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { QrCode, Sun, Moon, Globe, ScanLine, Menu, X } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
@@ -12,14 +13,12 @@ export default function Header({ onOpenScanner, drawerOpen, setDrawerOpen }) {
   const { lang, changeLanguage, SUPPORTED_LANGS } = useLanguage();
   const t = translations[lang];
 
-  // Fecha drawer com Escape
   useEffect(() => {
     const handleKey = (e) => { if (e.key === 'Escape') setDrawerOpen(false); };
     document.addEventListener('keydown', handleKey);
     return () => document.removeEventListener('keydown', handleKey);
   }, [setDrawerOpen]);
 
-  // Trava scroll do body quando drawer aberto
   useEffect(() => {
     document.body.style.overflow = drawerOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
@@ -30,71 +29,10 @@ export default function Header({ onOpenScanner, drawerOpen, setDrawerOpen }) {
     onOpenScanner();
   };
 
-  return (
-    <header className="header">
-      <div className="header-inner">
-        {/* Logo */}
-        <div className="header-logo">
-          <div className="logo-icon">
-            <QrCode size={22} />
-          </div>
-          <div className="logo-text">
-            <span className="logo-name">{t.appName}</span>
-            <span className="logo-tagline">{t.appTagline}</span>
-          </div>
-        </div>
-
-        {/* Desktop Controls */}
-        <div className="header-controls">
-          <button
-            id="open-scanner-btn"
-            className="btn-scanner"
-            onClick={onOpenScanner}
-            title={t.scanTitle}
-            aria-label={t.scanBtn}
-          >
-            <ScanLine size={16} />
-            {t.scanBtn}
-          </button>
-
-          <div className="lang-selector">
-            <Globe size={14} className="lang-icon" />
-            {SUPPORTED_LANGS.map((l) => (
-              <button
-                key={l}
-                className={`lang-btn ${lang === l ? 'active' : ''}`}
-                onClick={() => changeLanguage(l)}
-                title={l.toUpperCase()}
-              >
-                {LANG_LABELS[l]}
-              </button>
-            ))}
-          </div>
-
-          <button
-            id="theme-toggle"
-            className="btn btn-icon theme-btn"
-            onClick={toggleTheme}
-            title={theme === 'dark' ? t.themeLight : t.themeDark}
-            aria-label="Toggle theme"
-          >
-            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-          </button>
-        </div>
-
-        {/* Hamburger (mobile only) */}
-        <button
-          className="hamburger-btn"
-          onClick={() => setDrawerOpen(true)}
-          aria-label="Abrir menu"
-          aria-expanded={drawerOpen}
-        >
-          <Menu size={22} />
-        </button>
-      </div>
-
-      {/* Drawer rendered as sibling inside header but portalled via CSS fixed */}
-
+  // Drawer e backdrop renderizados via portal direto no body
+  // para evitar o bug de position:fixed dentro de backdrop-filter
+  const drawerPortal = createPortal(
+    <>
       {/* Backdrop */}
       <div
         className={`drawer-backdrop ${drawerOpen ? 'open' : ''}`}
@@ -109,7 +47,6 @@ export default function Header({ onOpenScanner, drawerOpen, setDrawerOpen }) {
         aria-modal="true"
         aria-label="Menu"
       >
-        {/* Drawer Header */}
         <div className="drawer-header">
           <span className="drawer-title">{t.appName}</span>
           <button
@@ -172,6 +109,77 @@ export default function Header({ onOpenScanner, drawerOpen, setDrawerOpen }) {
           </div>
         </div>
       </aside>
-    </header>
+    </>,
+    document.body
+  );
+
+  return (
+    <>
+      <header className="header">
+        <div className="header-inner">
+          {/* Logo */}
+          <div className="header-logo">
+            <div className="logo-icon">
+              <QrCode size={22} />
+            </div>
+            <div className="logo-text">
+              <span className="logo-name">{t.appName}</span>
+              <span className="logo-tagline">{t.appTagline}</span>
+            </div>
+          </div>
+
+          {/* Desktop Controls */}
+          <div className="header-controls">
+            <button
+              id="open-scanner-btn"
+              className="btn-scanner"
+              onClick={onOpenScanner}
+              title={t.scanTitle}
+              aria-label={t.scanBtn}
+            >
+              <ScanLine size={16} />
+              {t.scanBtn}
+            </button>
+
+            <div className="lang-selector">
+              <Globe size={14} className="lang-icon" />
+              {SUPPORTED_LANGS.map((l) => (
+                <button
+                  key={l}
+                  className={`lang-btn ${lang === l ? 'active' : ''}`}
+                  onClick={() => changeLanguage(l)}
+                  title={l.toUpperCase()}
+                >
+                  {LANG_LABELS[l]}
+                </button>
+              ))}
+            </div>
+
+            <button
+              id="theme-toggle"
+              className="btn btn-icon theme-btn"
+              onClick={toggleTheme}
+              title={theme === 'dark' ? t.themeLight : t.themeDark}
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+          </div>
+
+          {/* Hamburger (mobile only) */}
+          <button
+            className="hamburger-btn"
+            onClick={() => setDrawerOpen(true)}
+            aria-label="Abrir menu"
+            aria-expanded={drawerOpen}
+          >
+            <Menu size={22} />
+          </button>
+        </div>
+      </header>
+
+      {/* Portal renderizado direto no body */}
+      {drawerPortal}
+    </>
   );
 }
