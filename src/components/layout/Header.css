@@ -9,7 +9,7 @@
   transition: background var(--transition);
 }
 
-:root[data-theme='light'] .header {
+:root[data-theme="light"] .header {
   background: rgba(240, 240, 247, 0.85);
 }
 
@@ -24,7 +24,7 @@
   gap: 16px;
 }
 
-/* ---- Logo ---- */
+/* ── Logo ───────────────────────────────────────────────────────────────── */
 .header-logo {
   display: flex;
   align-items: center;
@@ -68,14 +68,14 @@
   letter-spacing: 0.02em;
 }
 
-/* ---- Controls ---- */
+/* ── Desktop Controls ───────────────────────────────────────────────────── */
 .header-controls {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-/* ---- Language Selector ---- */
+/* ── Language Selector ──────────────────────────────────────────────────── */
 .lang-selector {
   display: flex;
   align-items: center;
@@ -115,7 +115,7 @@
   color: #fff;
 }
 
-/* ---- Theme Button ---- */
+/* ── Theme Button ───────────────────────────────────────────────────────── */
 .theme-btn {
   width: 38px;
   height: 38px;
@@ -126,52 +126,7 @@
   color: var(--accent-light);
 }
 
-/* ---- Responsive ---- */
-@media (max-width: 600px) {
-  .logo-tagline {
-    display: none;
-  }
-
-  .header-inner {
-    padding: 0 16px;
-  }
-}
-
-/* â”€â”€ Scanner Button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-.btn-scanner {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.45rem 0.9rem;
-  border-radius: 10px;
-  border: 1px solid var(--color-primary);
-  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
-  color: var(--color-primary);
-  font-size: 0.8rem;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
-  transition: all 0.18s ease;
-  letter-spacing: 0.01em;
-}
-
-.btn-scanner:hover {
-  background: var(--color-primary);
-  color: #fff;
-  box-shadow: 0 2px 12px color-mix(in srgb, var(--color-primary) 40%, transparent);
-  transform: translateY(-1px);
-}
-
-.scanner-btn-label {
-  display: inline;
-}
-
-@media (max-width: 480px) {
-  .scanner-btn-label { display: none; }
-  .btn-scanner { padding: 0.45rem; }
-}
-
-/* ── Scanner Button ─────────────────────────────────────────────────────── */
+/* ── Scanner Button (desktop) ───────────────────────────────────────────── */
 .btn-scanner {
   display: flex;
   align-items: center;
@@ -189,14 +144,15 @@
   box-shadow:
     0 0 0 1px rgba(168, 85, 247, 0.4),
     0 4px 16px rgba(99, 102, 241, 0.45),
-    0 1px 3px rgba(0,0,0,0.3);
+    0 1px 3px rgba(0, 0, 0, 0.3);
   transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   overflow: hidden;
+  white-space: nowrap;
 }
 
 .btn-scanner::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 60%);
@@ -208,7 +164,7 @@
   box-shadow:
     0 0 0 1px rgba(168, 85, 247, 0.6),
     0 6px 24px rgba(99, 102, 241, 0.6),
-    0 2px 6px rgba(0,0,0,0.3);
+    0 2px 6px rgba(0, 0, 0, 0.3);
   filter: brightness(1.1);
 }
 
@@ -216,11 +172,282 @@
   transform: translateY(0) scale(0.98);
 }
 
-.scanner-btn-label {
-  display: inline;
+/* ── Hamburger Button (mobile only) ────────────────────────────────────── */
+.hamburger-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-glass);
+  color: var(--text-primary);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.18s ease;
 }
 
-@media (max-width: 480px) {
-  .scanner-btn-label { display: none; }
-  .btn-scanner { padding: 0.5rem 0.65rem; border-radius: 10px; }
+.hamburger-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent-light);
+  background: var(--bg-glass-hover);
+}
+
+/* ── Mobile Drawer Backdrop ─────────────────────────────────────────────── */
+.drawer-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 200;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.drawer-backdrop.open {
+  opacity: 1;
+}
+
+/* ── Mobile Drawer ──────────────────────────────────────────────────────── */
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(300px, 82vw);
+  background: var(--bg-surface);
+  border-left: 1px solid var(--border);
+  z-index: 201;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  transform: translateX(100%);
+  transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+  box-shadow: -8px 0 40px rgba(0, 0, 0, 0.4);
+  overflow-y: auto;
+}
+
+.mobile-drawer.open {
+  transform: translateX(0);
+}
+
+/* ── Drawer Header ──────────────────────────────────────────────────────── */
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1.25rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.drawer-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.drawer-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.drawer-close-btn:hover {
+  background: var(--bg-glass);
+  color: var(--text-primary);
+}
+
+/* ── Drawer Sections ────────────────────────────────────────────────────── */
+.drawer-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0.5rem 0 1rem;
+  flex: 1;
+}
+
+.drawer-section {
+  padding: 0.8rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.drawer-section:last-child {
+  border-bottom: none;
+}
+
+.drawer-section-label {
+  font-size: 0.67rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--text-muted);
+}
+
+/* ── Drawer Scanner Button ──────────────────────────────────────────────── */
+.drawer-scanner-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, #a855f7 0%, #6366f1 50%, #3b82f6 100%);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 0.01em;
+  width: 100%;
+  text-align: left;
+  box-shadow:
+    0 4px 18px rgba(99, 102, 241, 0.45),
+    0 1px 3px rgba(0,0,0,0.3);
+  transition: all 0.18s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.drawer-scanner-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.drawer-scanner-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow:
+    0 6px 24px rgba(99, 102, 241, 0.6),
+    0 2px 6px rgba(0,0,0,0.3);
+}
+
+.drawer-scanner-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.drawer-scanner-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.drawer-scanner-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.drawer-scanner-sub {
+  font-size: 0.72rem;
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+/* ── Drawer Lang Buttons ────────────────────────────────────────────────── */
+.drawer-lang-row {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.drawer-lang-btn {
+  flex: 1;
+  padding: 0.55rem 0;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-glass);
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: center;
+  transition: all 0.15s ease;
+}
+
+.drawer-lang-btn.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.drawer-lang-btn:not(.active):hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+
+/* ── Drawer Theme Row ───────────────────────────────────────────────────── */
+.drawer-theme-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.drawer-theme-label {
+  font-size: 0.88rem;
+  color: var(--text-primary);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.drawer-theme-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-glass);
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s ease;
+}
+
+.drawer-theme-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent-light);
+}
+
+/* ── Responsive: hide desktop controls, show hamburger on mobile ────────── */
+@media (max-width: 640px) {
+  .logo-tagline { display: none; }
+  .header-inner { padding: 0 16px; }
+  .header-controls { display: none; }
+  .hamburger-btn { display: flex; }
+  .drawer-backdrop { display: block; }
+}
+
+@media (min-width: 641px) {
+  .hamburger-btn { display: none; }
+  .drawer-backdrop { display: none !important; }
+  .mobile-drawer { display: none !important; }
 }
