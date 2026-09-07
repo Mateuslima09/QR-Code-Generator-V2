@@ -1,82 +1,99 @@
-.slideshow-overlay {
+﻿.slideshow-overlay {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: rgba(15, 15, 19, 0.95);
+  background: rgba(15, 15, 19, 0.97);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   display: flex;
   flex-direction: column;
 }
 
-:root[data-theme='light'] .slideshow-overlay {
-  background: rgba(240, 240, 247, 0.95);
+:root[data-theme="light"] .slideshow-overlay {
+  background: rgba(240, 240, 247, 0.97);
 }
 
+/* ── Header (desktop) ───────────────────────────────────────────────────── */
 .slideshow-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 32px;
+  gap: 12px;
+  padding: 16px 28px;
   border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  flex-wrap: nowrap;
 }
 
-.slideshow-controls-left,
-.slideshow-controls-right {
+.slideshow-controls-left {
   flex: 1;
   display: flex;
-}
-
-.slideshow-controls-right {
-  justify-content: flex-end;
   align-items: center;
-  gap: 16px;
-}
-
-.slideshow-timer {
-  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
-  font-weight: 700;
-  font-size: 1.2rem;
-  color: var(--accent-light);
-  min-width: 40px;
-  text-align: right;
+  min-width: 0;
 }
 
 .slideshow-controls-center {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+  flex-shrink: 0;
 }
 
+.slideshow-controls-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+/* ── Interval Label ─────────────────────────────────────────────────────── */
 .interval-label {
   display: flex;
   align-items: center;
   gap: 8px;
   color: var(--text-primary);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   margin: 0;
   text-transform: none;
   letter-spacing: normal;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 .interval-input {
-  width: 70px;
-  padding: 6px 10px;
-  font-size: 1rem;
+  width: 58px;
+  padding: 5px 8px;
+  font-size: 0.9rem;
   text-align: center;
+  flex-shrink: 0;
 }
 
+/* ── Timer ──────────────────────────────────────────────────────────────── */
+.slideshow-timer {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--accent-light);
+  min-width: 36px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* ── Buttons ────────────────────────────────────────────────────────────── */
 .slideshow-btn {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   color: var(--text-primary);
   border-color: transparent;
+  flex-shrink: 0;
 }
 
 .play-btn {
-  width: 56px;
-  height: 56px;
+  width: 52px;
+  height: 52px;
   background: var(--accent);
   color: #fff;
 }
@@ -88,16 +105,18 @@
 }
 
 .close-btn {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
 }
 
+/* ── Content ────────────────────────────────────────────────────────────── */
 .slideshow-content {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px;
+  padding: 32px;
   overflow: hidden;
 }
 
@@ -105,16 +124,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px;
+  padding: 32px;
   max-width: 90vw;
   max-height: 80vh;
 }
 
 .slideshow-index {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--accent-light);
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -127,11 +146,121 @@
 }
 
 .slideshow-text {
-  margin-top: 32px;
-  font-size: 1.5rem;
+  margin-top: 24px;
+  font-size: 1.3rem;
   font-weight: 500;
   color: var(--text-primary);
   text-align: center;
   word-break: break-all;
   font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+/* ============================================================
+   MOBILE LAYOUT — header vira 2 linhas
+   ============================================================ */
+@media (max-width: 560px) {
+  .slideshow-header {
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 16px;
+    align-items: stretch;
+  }
+
+  /* Linha 1: Intervalo + Fechar */
+  .slideshow-controls-left {
+    flex: none;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Botão fechar migra para dentro do controls-left no mobile */
+  .slideshow-controls-right {
+    display: none;
+  }
+
+  /* Linha 2: Prev / Play / Next / Timer */
+  .slideshow-controls-center {
+    width: 100%;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .slideshow-timer {
+    font-size: 0.95rem;
+    min-width: 40px;
+    text-align: center;
+  }
+
+  .slideshow-btn {
+    width: 48px;
+    height: 48px;
+  }
+
+  .play-btn {
+    width: 56px;
+    height: 56px;
+  }
+
+  .interval-label {
+    font-size: 0.8rem;
+    gap: 6px;
+  }
+
+  .interval-input {
+    width: 52px;
+    padding: 4px 6px;
+    font-size: 0.85rem;
+  }
+
+  .slideshow-content {
+    padding: 16px;
+  }
+
+  .slideshow-card {
+    padding: 20px 16px;
+  }
+
+  .slideshow-text {
+    font-size: 1rem;
+    margin-top: 16px;
+  }
+
+  .slideshow-index {
+    font-size: 0.9rem;
+    margin-bottom: 14px;
+  }
+}
+
+/* Fechar mobile: visivel so em telas pequenas */
+.close-btn-mobile {
+  display: none;
+}
+
+@media (max-width: 560px) {
+  .close-btn-mobile {
+    display: flex;
+  }
+  /* Oculta o botao fechar do desktop (controls-right) no mobile */
+  .slideshow-controls-right {
+    display: none;
+  }
+  /* Timer no mobile fica dentro do center */
+  .slideshow-controls-center .slideshow-timer {
+    display: flex;
+  }
+}
+
+@media (min-width: 561px) {
+  /* Em desktop o close-btn-mobile nao aparece */
+  .close-btn-mobile {
+    display: none !important;
+  }
+  /* Timer dentro do center nao aparece no desktop (fica no right) */
+  .slideshow-controls-center .slideshow-timer {
+    display: none;
+  }
+  .slideshow-controls-right {
+    display: flex;
+  }
 }
