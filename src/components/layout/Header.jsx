@@ -1,12 +1,12 @@
-import { QrCode, Sun, Moon, Globe } from 'lucide-react';
+﻿import { QrCode, Sun, Moon, Globe, ScanLine } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { translations } from '../../i18n/translations';
 import './Header.css';
 
-const LANG_LABELS = { pt: '🇧🇷 PT', en: '🇺🇸 EN', es: '🇪🇸 ES' };
+const LANG_LABELS = { pt: 'PT', en: 'EN', es: 'ES' };
 
-export default function Header() {
+export default function Header({ onOpenScanner }) {
   const { theme, toggleTheme } = useTheme();
   const { lang, changeLanguage, SUPPORTED_LANGS } = useLanguage();
   const t = translations[lang];
@@ -27,6 +27,18 @@ export default function Header() {
 
         {/* Controls */}
         <div className="header-controls">
+          {/* Scanner Button */}
+          <button
+            id="open-scanner-btn"
+            className="btn btn-scanner"
+            onClick={onOpenScanner}
+            title={t.scanTitle}
+            aria-label={t.scanBtn}
+          >
+            <ScanLine size={16} />
+            <span className="scanner-btn-label">{t.scanBtn}</span>
+          </button>
+
           {/* Language Selector */}
           <div className="lang-selector">
             <Globe size={14} className="lang-icon" />

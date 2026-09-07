@@ -12,6 +12,7 @@
   "dependencies": {
     "bwip-js": "^4.11.1",
     "framer-motion": "^12.23.24",
+    "html5-qrcode": "^2.3.8",
     "jszip": "^3.10.1",
     "lucide-react": "^0.554.0",
     "qrcode.react": "^4.2.0",
