@@ -16,6 +16,7 @@ import './App.css';
 function AppContent() {
   const [isSlideshowOpen, setIsSlideshowOpen] = useState(false);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const {
     inputText, setInputText,
@@ -26,14 +27,17 @@ function AppContent() {
     error, setError,
   } = useCodeGenerator();
 
-  // When user clicks "Use as Input" in the scanner, populate the generator input
   const handleScannerUseAsInput = (text) => {
     setInputText((prev) => prev ? `${prev}\n${text}` : text);
   };
 
   return (
     <div className="app-layout">
-      <Header onOpenScanner={() => setIsScannerOpen(true)} />
+      <Header
+        onOpenScanner={() => setIsScannerOpen(true)}
+        drawerOpen={isDrawerOpen}
+        setDrawerOpen={setIsDrawerOpen}
+      />
       <main className="app-main">
         <GeneratorPanel
           inputText={inputText}

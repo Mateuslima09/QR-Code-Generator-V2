@@ -1,8 +1,11 @@
-﻿.header {
+﻿/* ============================================================
+   HEADER
+   ============================================================ */
+.header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(15, 15, 19, 0.8);
+  background: rgba(15, 15, 19, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
@@ -10,7 +13,7 @@
 }
 
 :root[data-theme="light"] .header {
-  background: rgba(240, 240, 247, 0.85);
+  background: rgba(240, 240, 247, 0.9);
 }
 
 .header-inner {
@@ -30,6 +33,7 @@
   align-items: center;
   gap: 12px;
   text-decoration: none;
+  flex-shrink: 0;
 }
 
 .logo-icon {
@@ -172,13 +176,15 @@
   transform: translateY(0) scale(0.98);
 }
 
-/* ── Hamburger Button (mobile only) ────────────────────────────────────── */
+/* ============================================================
+   HAMBURGER (mobile only, hidden on desktop)
+   ============================================================ */
 .hamburger-btn {
   display: none;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: 10px;
   border: 1px solid var(--border);
   background: var(--bg-glass);
@@ -194,39 +200,42 @@
   background: var(--bg-glass-hover);
 }
 
-/* ── Mobile Drawer Backdrop ─────────────────────────────────────────────── */
+/* ============================================================
+   DRAWER BACKDROP
+   ============================================================ */
 .drawer-backdrop {
-  display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  z-index: 200;
-  opacity: 0;
-  transition: opacity 0.25s ease;
+  background: rgba(0, 0, 0, 0);
+  z-index: 998;
+  pointer-events: none;
+  transition: background 0.28s ease;
 }
 
 .drawer-backdrop.open {
-  opacity: 1;
+  background: rgba(0, 0, 0, 0.6);
+  pointer-events: auto;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
 }
 
-/* ── Mobile Drawer ──────────────────────────────────────────────────────── */
+/* ============================================================
+   MOBILE DRAWER PANEL
+   ============================================================ */
 .mobile-drawer {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   width: min(300px, 82vw);
-  background: var(--bg-surface);
+  background: var(--bg-secondary);
   border-left: 1px solid var(--border);
-  z-index: 201;
+  z-index: 999;
   display: flex;
   flex-direction: column;
-  gap: 0;
   transform: translateX(100%);
-  transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
-  box-shadow: -8px 0 40px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  box-shadow: -12px 0 40px rgba(0, 0, 0, 0.5);
   overflow-y: auto;
 }
 
@@ -239,15 +248,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.1rem 1.25rem 0.9rem;
+  padding: 1rem 1.25rem;
   border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
 }
 
 .drawer-title {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: -0.01em;
+  font-size: 1rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .drawer-close-btn {
@@ -267,22 +279,22 @@
 .drawer-close-btn:hover {
   background: var(--bg-glass);
   color: var(--text-primary);
+  border-color: var(--accent);
 }
 
-/* ── Drawer Sections ────────────────────────────────────────────────────── */
+/* ── Drawer Body ────────────────────────────────────────────────────────── */
 .drawer-body {
   display: flex;
   flex-direction: column;
-  gap: 0;
-  padding: 0.5rem 0 1rem;
   flex: 1;
+  padding: 0.5rem 0 1rem;
 }
 
 .drawer-section {
-  padding: 0.8rem 1.25rem;
+  padding: 0.85rem 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.6rem;
   border-bottom: 1px solid var(--border);
 }
 
@@ -294,30 +306,27 @@
   font-size: 0.67rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.1em;
   color: var(--text-muted);
 }
 
-/* ── Drawer Scanner Button ──────────────────────────────────────────────── */
+/* ── Scanner Button in Drawer ───────────────────────────────────────────── */
 .drawer-scanner-btn {
   display: flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: 0.75rem;
   padding: 0.85rem 1rem;
-  border-radius: 14px;
+  border-radius: var(--radius-md);
   border: none;
   background: linear-gradient(135deg, #a855f7 0%, #6366f1 50%, #3b82f6 100%);
   color: #fff;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 700;
   cursor: pointer;
   font-family: inherit;
-  letter-spacing: 0.01em;
   width: 100%;
   text-align: left;
-  box-shadow:
-    0 4px 18px rgba(99, 102, 241, 0.45),
-    0 1px 3px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 18px rgba(99, 102, 241, 0.45);
   transition: all 0.18s ease;
   position: relative;
   overflow: hidden;
@@ -334,9 +343,7 @@
 .drawer-scanner-btn:hover {
   filter: brightness(1.1);
   transform: translateY(-1px);
-  box-shadow:
-    0 6px 24px rgba(99, 102, 241, 0.6),
-    0 2px 6px rgba(0,0,0,0.3);
+  box-shadow: 0 6px 24px rgba(99, 102, 241, 0.6);
 }
 
 .drawer-scanner-icon {
@@ -353,7 +360,7 @@
 .drawer-scanner-info {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
 }
 
 .drawer-scanner-title {
@@ -368,7 +375,7 @@
   opacity: 0.8;
 }
 
-/* ── Drawer Lang Buttons ────────────────────────────────────────────────── */
+/* ── Language Buttons in Drawer ─────────────────────────────────────────── */
 .drawer-lang-row {
   display: flex;
   gap: 0.4rem;
@@ -376,12 +383,12 @@
 
 .drawer-lang-btn {
   flex: 1;
-  padding: 0.55rem 0;
+  padding: 0.6rem 0;
   border-radius: 10px;
   border: 1px solid var(--border);
   background: var(--bg-glass);
   color: var(--text-secondary);
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   font-weight: 700;
   cursor: pointer;
   font-family: inherit;
@@ -393,14 +400,16 @@
   background: var(--accent);
   color: #fff;
   border-color: var(--accent);
+  box-shadow: 0 2px 10px var(--accent-glow);
 }
 
 .drawer-lang-btn:not(.active):hover {
   border-color: var(--accent);
   color: var(--text-primary);
+  background: var(--bg-glass-hover);
 }
 
-/* ── Drawer Theme Row ───────────────────────────────────────────────────── */
+/* ── Theme in Drawer ────────────────────────────────────────────────────── */
 .drawer-theme-row {
   display: flex;
   align-items: center;
@@ -435,19 +444,22 @@
 .drawer-theme-btn:hover {
   border-color: var(--accent);
   color: var(--accent-light);
+  background: var(--bg-glass-hover);
 }
 
-/* ── Responsive: hide desktop controls, show hamburger on mobile ────────── */
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
 @media (max-width: 640px) {
   .logo-tagline { display: none; }
   .header-inner { padding: 0 16px; }
   .header-controls { display: none; }
   .hamburger-btn { display: flex; }
-  .drawer-backdrop { display: block; }
 }
 
 @media (min-width: 641px) {
   .hamburger-btn { display: none; }
+  /* Esconde drawer e backdrop em telas grandes */
   .drawer-backdrop { display: none !important; }
   .mobile-drawer { display: none !important; }
 }
