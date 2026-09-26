@@ -1,9 +1,10 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { QrCode, Sun, Moon, Globe, ScanLine, Menu, X } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { translations } from '../../i18n/translations';
+import { APP_VERSION } from '../../config/version';
 import './Header.css';
 
 const LANG_LABELS = { pt: 'PT', en: 'EN', es: 'ES' };
@@ -48,7 +49,10 @@ export default function Header({ onOpenScanner, drawerOpen, setDrawerOpen }) {
         aria-label="Menu"
       >
         <div className="drawer-header">
-          <span className="drawer-title">{t.appName}</span>
+          <div className="drawer-title-row">
+            <span className="drawer-title">{t.appName}</span>
+            <span className="version-badge">{APP_VERSION}</span>
+          </div>
           <button
             className="drawer-close-btn"
             onClick={() => setDrawerOpen(false)}
@@ -123,7 +127,10 @@ export default function Header({ onOpenScanner, drawerOpen, setDrawerOpen }) {
               <QrCode size={22} />
             </div>
             <div className="logo-text">
-              <span className="logo-name">{t.appName}</span>
+              <div className="logo-title-row">
+                <span className="logo-name">{t.appName}</span>
+                <span className="version-badge">{APP_VERSION}</span>
+              </div>
               <span className="logo-tagline">{t.appTagline}</span>
             </div>
           </div>

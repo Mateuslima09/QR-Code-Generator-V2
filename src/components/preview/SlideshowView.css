@@ -1,4 +1,4 @@
-﻿.slideshow-overlay {
+.slideshow-overlay {
   position: fixed;
   inset: 0;
   z-index: 1000;
@@ -29,13 +29,14 @@
   flex: 1;
   display: flex;
   align-items: center;
-  min-width: 0;
+  min-width: max-content;
 }
 
 .slideshow-controls-center {
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
+  gap: 14px;
   flex-shrink: 0;
 }
 
@@ -54,7 +55,7 @@
   align-items: center;
   gap: 8px;
   color: var(--text-primary);
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   margin: 0;
   text-transform: none;
   letter-spacing: normal;
@@ -63,22 +64,48 @@
 }
 
 .interval-input {
-  width: 58px;
-  padding: 5px 8px;
-  font-size: 0.9rem;
+  width: 66px;
+  padding: 6px 8px;
+  font-size: 0.95rem;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-weight: 600;
   text-align: center;
   flex-shrink: 0;
+  border-radius: var(--radius-sm, 6px);
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.interval-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-glow);
 }
 
 /* ── Timer ──────────────────────────────────────────────────────────────── */
 .slideshow-timer {
   font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.05rem;
   color: var(--accent-light);
-  min-width: 36px;
-  text-align: right;
+  min-width: 50px;
+  text-align: left;
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  align-items: center;
+  user-select: none;
+  transition: opacity 0.2s;
+}
+
+:root[data-theme="light"] .slideshow-timer {
+  color: var(--accent);
+}
+
+.slideshow-timer.is-paused {
+  opacity: 0.85;
 }
 
 /* ── Buttons ────────────────────────────────────────────────────────────── */
@@ -156,12 +183,12 @@
 }
 
 /* ============================================================
-   MOBILE LAYOUT — header vira 2 linhas
+   MOBILE & TABLET COMPACT LAYOUT — header vira 2 linhas
    ============================================================ */
-@media (max-width: 560px) {
+@media (max-width: 680px) {
   .slideshow-header {
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
     padding: 12px 16px;
     align-items: stretch;
   }
@@ -170,13 +197,10 @@
   .slideshow-controls-left {
     flex: none;
     width: 100%;
+    display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-
-  /* Botão fechar migra para dentro do controls-left no mobile */
-  .slideshow-controls-right {
-    display: none;
+    min-width: 0;
   }
 
   /* Linha 2: Prev / Play / Next / Timer */
@@ -187,9 +211,9 @@
   }
 
   .slideshow-timer {
-    font-size: 0.95rem;
-    min-width: 40px;
-    text-align: center;
+    font-size: 1rem;
+    min-width: 46px;
+    text-align: left;
   }
 
   .slideshow-btn {
@@ -203,14 +227,14 @@
   }
 
   .interval-label {
-    font-size: 0.8rem;
+    font-size: 0.82rem;
     gap: 6px;
   }
 
   .interval-input {
-    width: 52px;
-    padding: 4px 6px;
-    font-size: 0.85rem;
+    width: 58px;
+    padding: 5px 6px;
+    font-size: 0.9rem;
   }
 
   .slideshow-content {
@@ -222,7 +246,7 @@
   }
 
   .slideshow-text {
-    font-size: 1rem;
+    font-size: 1.05rem;
     margin-top: 16px;
   }
 
@@ -230,35 +254,26 @@
     font-size: 0.9rem;
     margin-bottom: 14px;
   }
+
+  /* Botão fechar aparece na Linha 1 no mobile/tablet */
+  .close-btn-mobile {
+    display: flex;
+  }
+
+  /* Oculta botão fechar do desktop */
+  .slideshow-controls-right {
+    display: none;
+  }
 }
 
-/* Fechar mobile: visivel so em telas pequenas */
+/* Fechar mobile: oculto por padrão no desktop */
 .close-btn-mobile {
   display: none;
 }
 
-@media (max-width: 560px) {
-  .close-btn-mobile {
-    display: flex;
-  }
-  /* Oculta o botao fechar do desktop (controls-right) no mobile */
-  .slideshow-controls-right {
-    display: none;
-  }
-  /* Timer no mobile fica dentro do center */
-  .slideshow-controls-center .slideshow-timer {
-    display: flex;
-  }
-}
-
-@media (min-width: 561px) {
-  /* Em desktop o close-btn-mobile nao aparece */
+@media (min-width: 681px) {
   .close-btn-mobile {
     display: none !important;
-  }
-  /* Timer dentro do center nao aparece no desktop (fica no right) */
-  .slideshow-controls-center .slideshow-timer {
-    display: none;
   }
   .slideshow-controls-right {
     display: flex;

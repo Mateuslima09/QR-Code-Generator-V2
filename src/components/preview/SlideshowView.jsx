@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Play, Pause, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { QRCodeCanvas } from 'qrcode.react';
 import Barcode from 'react-barcode';
@@ -15,10 +15,11 @@ const FORMAT_MAP = {
 };
 
 export default function SlideshowView({ items, codeType, config, onClose }) {
-  const [intervalSeconds, setIntervalSeconds] = useState(4);
+  const [intervalSeconds, setIntervalSeconds] = useState(4.0);
+  const [intervalInput, setIntervalInput] = useState('4.0');
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(4);
+  const [timeLeft, setTimeLeft] = useState(4.0);
 
   const { lang } = useLanguage();
   const t = translations[lang];
@@ -28,7 +29,7 @@ export default function SlideshowView({ items, codeType, config, onClose }) {
     const timer = setTimeout(() => {
       if (timeLeft <= 0.1) {
         setCurrentIndex((idx) => (idx + 1) % items.length);
-        setTimeLeft(Number(intervalSeconds) || 1);
+        setTimeLeft(Number(intervalSeconds) || 1.0);
       } else {
         setTimeLeft((prev) => Math.round((prev - 0.1) * 10) / 10);
       }
@@ -37,11 +38,67 @@ export default function SlideshowView({ items, codeType, config, onClose }) {
   }, [isPlaying, intervalSeconds, items.length, timeLeft]);
 
   useEffect(() => {
-    setTimeLeft(Number(intervalSeconds) || 1);
-  }, [currentIndex, intervalSeconds]);
+    if (!isPlaying) {
+      setTimeLeft(Number(intervalSeconds) || 1.0);
+    }
+  }, [currentIndex, intervalSeconds, isPlaying]);
+
+  const stepInterval = (delta) => {
+    const current = Number(intervalSeconds) || 4.0;
+    const next = Math.round(Math.min(60, Math.max(0.1, current + delta)) * 10) / 10;
+    setIntervalSeconds(next);
+    setIntervalInput(next.toFixed(1));
+    if (!isPlaying) {
+      setTimeLeft(next);
+    }
+  };
+
+  const handleIntervalChange = (e) => {
+    const raw = e.target.value;
+    if (/^[0-9]*[.,]?[0-9]*$/.test(raw)) {
+      setIntervalInput(raw);
+      const normalized = raw.replace(',', '.');
+      const num = parseFloat(normalized);
+      if (!isNaN(num) && num >= 0.1 && num <= 60) {
+        setIntervalSeconds(num);
+      }
+    }
+  };
+
+  const handleIntervalBlur = () => {
+    const normalized = intervalInput.replace(',', '.');
+    let num = parseFloat(normalized);
+    if (isNaN(num) || num < 0.1) {
+      num = 1.0;
+    } else if (num > 60) {
+      num = 60.0;
+    }
+    const formatted = num.toFixed(1);
+    setIntervalSeconds(num);
+    setIntervalInput(formatted);
+    if (!isPlaying) {
+      setTimeLeft(num);
+    }
+  };
+
+  const handleIntervalKeyDown = (e) => {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      stepInterval(e.shiftKey ? 1.0 : 0.1);
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      stepInterval(e.shiftKey ? -1.0 : -0.1);
+    } else if (e.key === 'Enter') {
+      e.target.blur();
+    }
+  };
 
   useEffect(() => {
     const handleKeyDown = (e) => {
+      if (e.target && e.target.tagName === 'INPUT') {
+        if (e.key === 'Escape') onClose();
+        return;
+      }
       if (e.key === 'Escape') onClose();
       if (e.key === 'ArrowRight') nextSlide();
       if (e.key === 'ArrowLeft') prevSlide();
@@ -66,19 +123,14 @@ export default function SlideshowView({ items, codeType, config, onClose }) {
           <label className="interval-label">
             {t.intervalLabel}
             <input
-              type="number"
-              min="0.1"
-              max="60"
-              step="0.1"
-              value={intervalSeconds}
-              onChange={(e) => {
-                const val = e.target.value;
-                setIntervalSeconds(val === '' ? '' : Number(val));
-              }}
-              onBlur={() => {
-                if (intervalSeconds === '' || intervalSeconds < 0.1) setIntervalSeconds(1);
-              }}
+              type="text"
+              inputMode="decimal"
+              value={intervalInput}
+              onChange={handleIntervalChange}
+              onBlur={handleIntervalBlur}
+              onKeyDown={handleIntervalKeyDown}
               className="interval-input"
+              aria-label={t.intervalLabel}
             />
           </label>
           {/* Botão fechar aparece aqui só no mobile */}
@@ -105,12 +157,16 @@ export default function SlideshowView({ items, codeType, config, onClose }) {
             <ChevronRight size={24} />
           </button>
 
-          <div className="slideshow-timer">
-            {isPlaying ? `${timeLeft.toFixed(1)}s` : t.pause}
+          <div
+            className={`slideshow-timer ${!isPlaying ? 'is-paused' : ''}`}
+            title={isPlaying ? t.pause : t.play}
+            aria-label={`Tempo: ${timeLeft.toFixed(1)} segundos`}
+          >
+            {timeLeft.toFixed(1)}s
           </div>
         </div>
 
-        {/* Direita: Timer + fechar (desktop) */}
+        {/* Direita: Botão fechar (desktop) */}
         <div className="slideshow-controls-right">
           <button className="btn-icon close-btn" onClick={onClose} title={t.close}>
             <X size={24} />
