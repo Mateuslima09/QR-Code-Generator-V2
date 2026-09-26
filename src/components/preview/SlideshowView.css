@@ -187,31 +187,34 @@ input.interval-input:focus,
 }
 
 /* ============================================================
-   MOBILE & TABLET COMPACT LAYOUT — header vira 2 linhas
+   MOBILE COMPACT LAYOUT — header vira 2 linhas no celular
    ============================================================ */
-@media (max-width: 680px) {
+@media (max-width: 700px) {
   .slideshow-header {
-    flex-direction: column;
-    gap: 12px;
-    padding: 12px 16px;
-    align-items: stretch;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    padding: 12px 16px !important;
+    align-items: stretch !important;
   }
 
   /* Linha 1: Intervalo + Fechar */
   .slideshow-controls-left {
-    flex: none;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-width: 0;
+    flex: none !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    min-width: 0 !important;
   }
 
   /* Linha 2: Prev / Play / Next / Timer */
   .slideshow-controls-center {
-    width: 100%;
-    justify-content: center;
-    gap: 16px;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 16px !important;
   }
 
   .slideshow-timer {
@@ -263,14 +266,14 @@ input.interval-input:focus,
     margin-bottom: 14px;
   }
 
-  /* Botão fechar aparece na Linha 1 no mobile/tablet */
+  /* Botão fechar aparece na Linha 1 no mobile */
   .close-btn-mobile {
-    display: flex;
+    display: flex !important;
   }
 
   /* Oculta botão fechar do desktop */
   .slideshow-controls-right {
-    display: none;
+    display: none !important;
   }
 }
 
@@ -279,11 +282,11 @@ input.interval-input:focus,
   display: none;
 }
 
-@media (min-width: 681px) {
+@media (min-width: 701px) {
   .close-btn-mobile {
     display: none !important;
   }
   .slideshow-controls-right {
-    display: flex;
+    display: flex !important;
   }
 }
